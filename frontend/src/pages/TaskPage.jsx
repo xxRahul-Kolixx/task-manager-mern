@@ -1,16 +1,15 @@
+// src/pages/TaskPage.jsx
 import { useState } from "react";
 import TaskItem from "../components/TaskItem";
 import TaskForm from "../components/TaskForm";
 
 function TaskPage() {
-  // Mock data (we’ll replace with backend later)
   const [tasks, setTasks] = useState([
     { id: 1, text: "Learn React", completed: false },
     { id: 2, text: "Build a MERN project", completed: true },
     { id: 3, text: "Push code to GitHub", completed: false },
   ]);
 
-  // Add task
   const addTask = (text) => {
     const newTask = {
       id: Date.now(),
@@ -20,7 +19,6 @@ function TaskPage() {
     setTasks([...tasks, newTask]);
   };
 
-  // Toggle complete
   const toggleTask = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -29,9 +27,14 @@ function TaskPage() {
     );
   };
 
-  // Delete task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const editTask = (id, newText) => {
+    setTasks(
+      tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
+    );
   };
 
   return (
@@ -44,6 +47,7 @@ function TaskPage() {
             task={task}
             onToggle={toggleTask}
             onDelete={deleteTask}
+            onEdit={editTask} // 🔹 new prop
           />
         ))}
       </ul>
